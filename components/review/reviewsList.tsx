@@ -50,7 +50,7 @@ const ReviewsList = () => {
                     <ModalHeader>Оставить отзыв</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <CreateReviewForm />
+                        <CreateReviewForm onClose={onClose} />
                     </ModalBody>
 
                 </ModalContent>

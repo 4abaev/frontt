@@ -9,7 +9,7 @@ export interface IFormValue {
     ownerEmail: string;
 }
 
-const CreateReviewForm = () => {
+const CreateReviewForm = ({onClose} : {onClose: () => void}) => {
 
     const { user } = useAppSelector((state) => state.auth)
 
@@ -62,7 +62,9 @@ const CreateReviewForm = () => {
         setIsLoading(true);
         await createReview(formValue);
         setIsLoading(false)
-    }, [createReview])
+
+        onClose()
+    }, [createReview, onClose])
     return (
         <Flex flexDir='column' alignItems={'center'} mx={'auto'} maxW={360}>
             <FormControl isRequired>
