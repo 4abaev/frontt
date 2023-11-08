@@ -11,7 +11,8 @@ import {
     Button,
     Flex,
     Heading,
-    useDisclosure
+    useDisclosure,
+    Spinner
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ReviewItem from "./reviewItem";
@@ -20,13 +21,19 @@ import CreateReviewForm from "./createReviewForm";
 const ReviewsList = () => {
     const { user } = useAppSelector((state) => state.auth)
     const { reviews } = useAppSelector((state) => state.review)
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const { getReviewByUserId } = useActions();
 
+    const getReviews = useCallback(async () => {
+        setIsLoading(true)
+        user?.id && await getReviewByUserId(user?.id)
+        setIsLoading(false)
+    }, [getReviewByUserId, user?.id])
+
     useEffect(() => {
-        user?.id && getReviewByUserId(user?.id)
+        getReviews()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?.id])
 
@@ -40,7 +47,7 @@ const ReviewsList = () => {
                     <ReviewItem key={review.id} review={review} />
                 ))
                 :
-                <Heading fontSize={20} colorScheme={'gray'} my={4}>Список пуст...</Heading>
+                isLoading ? <Spinner /> : <Heading fontSize={20} colorScheme={'gray'} my={4}>Список пуст...</Heading>
             }
             </Flex>
             <Button colorScheme={"green"} onClick={onOpen} my={6} >Добавить отзыв</Button>

@@ -15,7 +15,8 @@ export class AuthApi {
     }
     public async getMe() {
         try {
-            return (await this.authorizedInstance.get('/users/me')).data;
+            const user = (await this.authorizedInstance.get('/users/me')).data;
+            return user;
         } catch (error) {
             return null;
         }

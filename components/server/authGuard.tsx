@@ -11,6 +11,7 @@ export default async function AuthGuard({ children }: { children: React.ReactNod
     const authApi = AuthApi.getInstance();
 
     const user = await authApi.getMe();
+    
     if (!user) {
         redirect('/auth/login');
     }

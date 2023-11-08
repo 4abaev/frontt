@@ -29,7 +29,7 @@ export class ReviewApi {
         return (await this.httpInstance.get('/reviews')).data.data;
     }
     async createReview(data: IFormValue) {
-        return (await this.httpInstance.post('/reviews', {data: data})).data.data;
+        return (await this.httpInstance.post('/reviews/create', {data: data})).data;
     }
     async deleteReview(id: number) {
         return (await this.httpInstance.delete(`/reviews/${id}`)).data.data;
